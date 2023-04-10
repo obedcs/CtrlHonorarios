@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.2722928551174586"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Pacte" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\\\svrhste\\Sistemas HSTE\\Ctrl Honorarios\\Reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT med_clave,med_nombre,pac_nombre,reg_monto
+FROM medicos
+INNER JOIN pacientes ON pac_folio=med_paciente
+INNER JOIN registro ON reg_med=med_clave AND reg_pac=med_paciente
+WHERE med_paciente = $P{Pacte}]]>
+	</queryString>
+	<field name="med_clave" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="med_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pac_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reg_monto" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Tot_Rep" class="java.lang.Float" incrementType="Report" calculation="System"/>
+	<title>
+		<band height="165">
+			<staticText>
+				<reportElement x="99" y="0" width="380" height="88" uuid="cbe3a063-93cb-4a8b-8479-3fea2e22371c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DE CUENTA DEL PACIENTE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="99" y="88" width="380" height="20" uuid="a0b2dbca-ec6b-4d3b-9a17-486e04088686"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA["[" + $P{Pacte} + "] " +$F{pac_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="99" y="128" width="380" height="29" uuid="70468d61-727a-4c67-b8c0-2d18d8f40bbf"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="25" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="48">
+			<rectangle>
+				<reportElement x="0" y="0" width="572" height="12" forecolor="#FFFFFF" backcolor="#CCCCCC" uuid="1f98048c-39f9-482b-9189-2f3753b0df16"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="250" height="12" uuid="3a2c5974-2642-4969-88a3-1a79b0cb64f8"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["[" + $F{med_clave} + "] " + $F{med_nombre}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="12" width="572" height="32" uuid="78548f1e-8265-4313-88ce-2deaac6a0e07"/>
+				<subreportParameter name="Pacte">
+					<subreportParameterExpression><![CDATA[$P{Pacte}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Med">
+					<subreportParameterExpression><![CDATA[$F{med_clave}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="RetornoTotal" toVariable="Tot_Rep"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubEdoCtaPaciente.jasper"]]></subreportExpression>
+			</subreport>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="370" y="0" width="82" height="12" uuid="3be0867c-0828-411e-bd3d-5ecdb2418e63"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reg_monto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="310" y="0" width="60" height="12" uuid="facd45d7-170f-4f7f-8fbb-9325a3b91b24"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Honorarios:]]></text>
+			</staticText>
+			<textField evaluationTime="Band" pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="497" y="0" width="75" height="12" uuid="106a2fdc-524f-4f2c-b55e-8618ce50f7e8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Tot_Rep}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="452" y="0" width="45" height="12" uuid="a7cffa59-2a6f-4b1b-9142-2a1cdc812fa6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Abonos:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22">
+			<textField pattern="dd-MMM-yyyy  hh.mm a" isBlankWhenNull="false">
+				<reportElement x="0" y="10" width="147" height="12" uuid="b0357b36-b72f-423c-8000-8e607ed30e24"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="10" width="80" height="12" uuid="a4627874-5703-4576-86be-86f1528de55f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="532" y="10" width="40" height="12" uuid="62508a64-446b-47db-911e-2d05278b4bcb"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

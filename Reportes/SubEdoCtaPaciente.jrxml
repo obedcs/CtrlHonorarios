@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="572" pageHeight="752" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.2722928551174586"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Med" class="java.lang.String"/>
+	<parameter name="Pacte" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT honorarios.ID,med_nombre,hon_cant,hon_desc,hon_fecha,hon_hora
+FROM honorarios
+INNER JOIN medicos ON med_clave=hon_med
+WHERE hon_pac = $P{Pacte}
+AND med_clave = $P{Med}
+GROUP BY honorarios.ID ASC]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="med_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_cant" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_desc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_hora" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Total" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{hon_cant}]]></variableExpression>
+	</variable>
+	<variable name="RetornoTotal" class="java.lang.Float" resetType="None">
+		<variableExpression><![CDATA[$V{Total}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="13">
+			<staticText>
+				<reportElement x="0" y="1" width="32" height="12" uuid="f2243312-7822-4d28-98ce-88bf2ce31d93"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="32" y="1" width="231" height="12" uuid="ebad4f20-cccd-4630-bd89-c56c1845d7c2"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONCEPTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="1" width="65" height="12" uuid="d84a7e6e-e4c7-45e6-bf15-482068c5b4b4"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="1" width="73" height="12" uuid="72c9e192-0210-4aa9-bc13-550a5520e350"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="507" y="1" width="58" height="12" uuid="64083358-cc31-4c39-b01b-f219366078aa"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<textField>
+				<reportElement x="0" y="0" width="32" height="13" uuid="78c53935-2ee4-4877-a7de-27095dc161f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="0" width="338" height="13" uuid="2e475fc1-2fe8-42f2-b3a4-31a8ad12f6a3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_desc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="370" y="0" width="65" height="13" uuid="099918dd-5a60-4d2a-9bd8-2f20d8709372"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_cant}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="435" y="0" width="73" height="13" uuid="8b06691b-f6f1-4594-bb10-6359b5767e48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="hh.mm a">
+				<reportElement x="508" y="0" width="57" height="13" uuid="49334141-c1ae-424f-b58e-74f91041c8e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_hora}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="370" y="0" width="65" height="13" uuid="f4471fa6-7141-4b67-ab43-d37999567374"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

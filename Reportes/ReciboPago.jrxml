@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.2722928551174586"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="624"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Honorarios"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="inch"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="inch"/>
+	<parameter name="Folio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nmed" class="java.lang.String"/>
+	<parameter name="npac" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.reg_med,a.reg_pac,a.reg_monto,a.reg_desc,a.reg_fecha,a.reg_foliocaja,b.us_nombre
+FROM registro a
+INNER JOIN usuarios b ON b.us_usuario=a.reg_usr
+WHERE a.reg_foliocaja=$P{Folio}]]>
+	</queryString>
+	<field name="reg_med" class="java.lang.String"/>
+	<field name="reg_pac" class="java.lang.String"/>
+	<field name="reg_monto" class="java.lang.Float"/>
+	<field name="reg_desc" class="java.lang.String"/>
+	<field name="reg_fecha" class="java.sql.Date"/>
+	<field name="reg_foliocaja" class="java.lang.String"/>
+	<field name="us_nombre" class="java.lang.String"/>
+	<background>
+		<band height="356">
+			<image>
+				<reportElement x="169" y="45" width="250" height="280" uuid="84f272d3-e40f-4eae-a381-5a39e9dcdc77"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\Ctrl Honorarios\\Logo\\1.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="356" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="107" height="112" uuid="e51bd27d-54de-4dad-abbf-dd5e33d3419d"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\Ctrl Honorarios\\Logo\\Logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="110" y="27" width="264" height="23" uuid="7a5c95dd-6cfc-4fad-9447-5701dbcd0642"/>
+				<textElement>
+					<font fontName="Arial" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[HOSPITAL DEL SURESTE A.C.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="49" width="328" height="23" uuid="f5c41627-d77c-46ee-95f0-1ef27d323130"/>
+				<textElement>
+					<font fontName="Arial" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[RECIBO DE PAGO DE HONORARIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="122" width="55" height="17" uuid="8044c6aa-f455-4e30-8d53-a6c29f4994f3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[FOLIO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="107" y="122" width="100" height="17" uuid="2f3e7a55-c6af-4716-934b-4155477ed720"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reg_foliocaja}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="139" width="82" height="17" uuid="c14de7c4-4f65-41e8-b326-7389068bdfe1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[PACIENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="156" width="82" height="17" uuid="d73122eb-24a0-487e-a705-a11015c4e8ac"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[MEDICO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="173" width="82" height="17" uuid="8b375542-9dda-4a2e-a7ef-edcfad757f94"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[MONTO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="107" y="139" width="443" height="17" uuid="0d3f3223-c820-4522-b46b-eb54fc01cfa5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["[ " + $F{reg_pac} + " ]   " + $P{npac}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="156" width="443" height="17" uuid="f0f5ccb1-ff6a-4aff-a309-e44a20d5fdf1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["[ " + $F{reg_med} + " ]   " + $P{nmed}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="107" y="173" width="142" height="17" uuid="5ffa9b9c-d521-45fb-8875-890c4bd20ce8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reg_monto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="190" width="82" height="17" uuid="4d3d3491-6eca-4b47-87e8-2012ef1b1641"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="107" y="190" width="100" height="17" uuid="aebb3166-f87b-4dde-9f7d-6b14a644c9e0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reg_fecha}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="82" y="220" width="190" height="100" uuid="e7dac34a-2dce-4678-a2df-c12a3f87ed3d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="295" y="220" width="190" height="100" uuid="4e03052a-1048-47fa-89cb-53324906fedf"/>
+			</rectangle>
+			<textField>
+				<reportElement x="82" y="320" width="190" height="17" uuid="6cfdb017-2c35-461d-99a3-e8ad4bd62714"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{npac}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="320" width="190" height="17" uuid="f704ed69-b80a-4a59-9ac2-436400030444"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{us_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="82" y="337" width="190" height="17" uuid="fff8d6a8-18f1-470f-9385-80d8d78e21f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[PACIENTE / RESPONSABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="337" width="190" height="17" uuid="53a17e58-018f-4d45-8c5f-6631ad235b9f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CAJERO]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

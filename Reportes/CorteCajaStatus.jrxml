@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.2722928551174586"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Fecha" class="java.util.Date"/>
+	<parameter name="Usuario" class="java.lang.String"/>
+	<parameter name="Estatus" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT us_nombre,
+IF(
+   hon_status = 0, 'Por Entregar',
+   IF(hon_status = 1, 'Entregado',
+      IF(hon_status = 2, 'Devuelto', 'Error'))
+) as hon_status,
+med_nombre,hon_pac,pac_nombre,sum(hon_cant) AS Total FROM honorarios
+INNER JOIN pacientes ON pac_folio=hon_pac
+INNER JOIN usuarios ON us_usuario=hon_usr
+INNER JOIN medicos ON med_clave=hon_med AND med_paciente=hon_pac
+WHERE hon_fecha = $P{Fecha} AND hon_status=$P{Estatus}
+AND hon_usr = $P{Usuario} GROUP BY hon_pac;]]>
+	</queryString>
+	<field name="us_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_status" class="java.lang.String">
+		<fieldDescription><![CDATA[1=entregado, 0=pendiente de entrega, 2=devuelto]]></fieldDescription>
+	</field>
+	<field name="med_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_pac" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pac_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Total" class="java.lang.Double"/>
+	<variable name="Total_Total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement x="129" y="0" width="329" height="49" uuid="e641bef6-1df0-44db-8d30-39e214c8003c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="36" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CORTE DE CAJA]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="129" y="48" width="329" height="20" uuid="d56a4d25-1432-4a2a-8dc5-3f9a70cc3e9d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="68" width="329" height="17" uuid="f1cafc1f-ba0e-4a21-943a-3fcbc0d159eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{us_nombre}+" ["+$P{Usuario}+"]"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="85" width="329" height="17" uuid="56efeeda-3993-488f-8f46-6b543259f54e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Estatus: "+$F{hon_status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22">
+			<staticText>
+				<reportElement x="13" y="1" width="50" height="20" uuid="b6595494-067c-4f30-8a69-354a1ac3aaf3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="1" width="141" height="20" uuid="e218e4cd-b423-4967-b4ba-13467f9565cc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE / MEDICO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="458" y="1" width="100" height="20" uuid="5acd70ca-1a49-4e0a-9db2-572bb36587c2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17">
+			<textField>
+				<reportElement x="13" y="0" width="50" height="16" uuid="4c42b052-dad3-48c3-b8eb-e1aff6449a84"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_pac}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="0" width="390" height="16" uuid="34fcfbe4-1390-43c4-af02-5e72db86f5e0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_nombre}+"  / MEDICO: "+$F{med_nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="458" y="0" width="100" height="16" uuid="b03409b9-627a-42c9-9ce0-60b4b335aea4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField pattern="dd-MMM-yyyy hh:mm:ss">
+				<reportElement x="13" y="34" width="143" height="16" uuid="378fbdc2-082b-48c2-aca1-257905f0eb8a"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="34" width="80" height="16" uuid="03ec2279-2bd5-42d9-afa2-6483391e12ac"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="518" y="34" width="40" height="16" uuid="a78f1c19-803a-46d8-8dd1-1e36df2a95d8"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="180">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="458" y="7" width="100" height="20" uuid="d3529d2b-a9b1-450b-b6db-7d442d84580f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_Total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="150" width="196" height="29" uuid="66420486-252b-49f5-902d-c0153c4ce8db"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{us_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="79" y="65" width="161" height="32" uuid="d099a772-2e50-4854-886a-ebd4bde2f9f7"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA DE ENTREGADO CAJERO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="63" y="149" width="196" height="1" uuid="8fdae0a1-d9ad-4279-be82-b195a3ab2608"/>
+			</line>
+			<line>
+				<reportElement x="298" y="150" width="196" height="1" uuid="5e67cbc5-3737-435b-af05-70b250b43bb3"/>
+			</line>
+			<staticText>
+				<reportElement x="298" y="66" width="196" height="31" uuid="fcddfff5-9895-48ac-9680-355a5ed00337"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE Y FIRMA DE RECIBIDO CONTABILIDAD]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="63" y="65" width="196" height="114" uuid="60187201-1b55-4516-8855-093cc9719dbe"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="298" y="66" width="196" height="114" uuid="84a36657-6c50-4688-bd2b-3a90051f7ae7"/>
+			</rectangle>
+		</band>
+	</summary>
+</jasperReport>

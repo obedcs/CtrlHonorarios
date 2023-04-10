@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.2722928551174586"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="StatCnt" class="java.lang.Integer"/>
+	<parameter name="Med" class="java.lang.String"/>
+	<parameter name="Cajero" class="java.lang.String"/>
+	<parameter name="Consec" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT honorarios.ID,hon_pac,pac_nombre,hon_cant,hon_foliocnt,hon_fecha,hon_hora,med_nombre
+FROM honorarios
+INNER JOIN pacientes ON pacientes.pac_folio=honorarios.hon_pac
+INNER JOIN medicos ON med_clave=hon_med
+WHERE status_contable = $P{StatCnt}  AND hon_med = $P{Med}
+AND hon_foliocnt = $P{Consec} ]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_pac" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pac_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_cant" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_foliocnt" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hon_hora" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="med_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Total" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{hon_cant}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="189" splitType="Stretch">
+			<staticText>
+				<reportElement x="96" y="2" width="386" height="71" uuid="19cecc95-7af2-4f0c-a75e-1da7e2a2de29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGO DE HONORARIOS A MEDICOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="62" y="105" width="298" height="14" uuid="a95408da-7d25-44f4-b241-37c387aa0ea9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" [" + $P{Med} + "] " + $F{med_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="105" width="49" height="14" uuid="dfaabb3a-3cd5-4fa0-bb46-1037128eb6e8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Médico:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="119" width="95" height="14" uuid="c9dada0f-34c4-41f7-ac18-8b3fc8068544"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Pago:]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy    hh:mm a">
+				<reportElement x="108" y="119" width="252" height="14" uuid="22d4b744-4fce-4581-bc48-a987fee9e7dd"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="104" y="174" width="36" height="14" uuid="e31a8910-bb13-4e89-8d5e-70d0a49bf22e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="174" width="205" height="14" uuid="6d0b6eef-cf0e-40c3-aa01-2263d4323813"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="174" width="71" height="14" uuid="fbb5e6a8-bf60-42c6-a53c-9a99148ff942"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="174" width="66" height="14" uuid="5793d8a0-cc43-456b-96ba-492b02af826a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="105" width="78" height="14" uuid="6f773e74-b4ee-4839-bd22-89b6e6eeae09"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consecutivo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="494" y="105" width="65" height="14" uuid="f8848186-a196-42ba-b942-e49221148a92"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_foliocnt}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="15">
+			<textField>
+				<reportElement x="104" y="0" width="36" height="14" uuid="1d11a8fe-1685-47f3-8ab6-2122244a6d66"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="0" width="205" height="14" uuid="a25a02f3-b718-4996-a202-43365ed38e5a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="345" y="0" width="71" height="14" uuid="ccff921d-95e6-4975-9546-d5e9b1f18b47"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_cant}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="416" y="0" width="66" height="14" uuid="75874bd8-7427-42e2-8f22-ecaf7a5aed1a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hon_fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField pattern="yyyy.MMMMM.dd GGG hh:mm aaa">
+				<reportElement x="0" y="36" width="225" height="14" uuid="88723f59-c052-4231-a824-3ec3dc79285e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="211">
+			<textField pattern="">
+				<reportElement x="42" y="175" width="196" height="30" uuid="9bf806af-e814-4c57-9757-ce882a79e2a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{med_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="42" y="90" width="196" height="15" uuid="0d228329-6db8-4f2d-88c3-aec1160ba956"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MEDICO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="42" y="174" width="196" height="1" uuid="2a925c04-4b8b-420c-9e82-1346954580b4"/>
+			</line>
+			<staticText>
+				<reportElement x="338" y="90" width="196" height="15" uuid="4b6a4719-1602-4ee7-b2de-9222f4346e24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTABILIDAD]]></text>
+			</staticText>
+			<line>
+				<reportElement x="338" y="173" width="196" height="1" uuid="fb97bb39-c3f1-44ae-983c-f9b1c0c7fc2b"/>
+			</line>
+			<textField pattern="">
+				<reportElement x="338" y="174" width="196" height="31" uuid="5201d0de-4172-49da-b5f6-421e08dc8e5d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Cajero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="36" width="42" height="18" uuid="00d4ec20-3dc7-48ed-81a8-8320d1b863c3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement mode="Opaque" x="61" y="36" width="101" height="18" backcolor="#CCCCCC" uuid="be833f05-bcc7-4b10-ad2e-3050c4904835"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
